@@ -3,16 +3,23 @@ const helpers = require('../utils/helpers');
 
 const register = async (req, res, next) => {
     try {
+
+        const identification = helpers.sanitizeInput(req.body.identification); 
         const email = helpers.sanitizeInput(req.body.email);
         const firstName = helpers.sanitizeInput(req.body.firstName);
         const lastName = helpers.sanitizeInput(req.body.lastName);
         const password = req.body.password;
+        const type = helpers.sanitizeInput(req.body.type);
+        const rol = helpers.sanitizeInput(req.body.rol);
 
         const result = await authService.registerUser({
+            identification,
             email,
             password,
             firstName,
-            lastName
+            lastName,
+            type,
+            rol
         });
 
         res.status(201).json({
