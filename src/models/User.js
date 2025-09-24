@@ -3,10 +3,20 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
+    identification: {
+        type: String,
+        required: [true, 'Identification is required'],
+        unique: true,
+        lowercase: true,
+        trim: true,
+        minlength: [10, 'The minimum identification is 10 characters'],
+        maxlength: [13, 'Identification cannot exceed 13 characters']
+    },
     email: {
         type: String,
         required: [true, 'Email is required'],
         unique: true,
+        trim: true,
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
     },
@@ -27,6 +37,18 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Last name is required'],
         trim: true,
         maxlength: [50, 'Last name cannot exceed 50 characters']
+    },
+    type: {
+        type: String,
+        trim: true,
+        enum: ["professional", "company"],
+        required: [true, 'Type is required']
+    },
+    rol: {
+        type: String,
+        trim: true,
+        enum: ["client", "administrator", "operator"],
+        required: [true, 'Rol is required']
     },
     isActive: {
         type: Boolean,
